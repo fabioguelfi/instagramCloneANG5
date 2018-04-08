@@ -23,7 +23,7 @@ export class BannerComponent implements OnInit {
   public estado = 'escondido'
 
   public imagens: Array<Imagem> = [
-    { estado: 'escondido', url: '/assets/banner-acesso/img_1.png' },
+    { estado: 'visivel', url: '/assets/banner-acesso/img_1.png' },
     { estado: 'escondido', url: '/assets/banner-acesso/img_2.png' },
     { estado: 'escondido', url: '/assets/banner-acesso/img_3.png' },
     { estado: 'escondido', url: '/assets/banner-acesso/img_4.png' },
@@ -33,10 +33,29 @@ export class BannerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    setTimeout(() => this.logicaRotacao(), 2000)
   }
 
-  public toggleEstado(): void {
-    this.estado = this.estado === 'visivel' ? 'escondido' : 'visivel'
+  private logicaRotacao(): void {
+    console.log(this.imagens)
+
+    // auxiliar na exibicao da imagem seguinte
+    let idx: number
+
+    // ocultar imagem
+    for (let i = 0; i <= 4; i++) {
+      if (this.imagens[i].estado === 'visivel') {
+        this.imagens[i].estado = 'escondido';
+        idx = i === 4 ? 0 : i + 1
+        break
+      }
+    }
+
+    // exibir a proxima imagem
+    this.imagens[idx].estado = 'visivel';
+
+
+    setTimeout(() => this.logicaRotacao(), 2000)
   }
 
 }
