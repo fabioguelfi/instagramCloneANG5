@@ -1,3 +1,4 @@
+import { ROUTES } from './app.routes';
 import { Autenticacao } from './autenticacao.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ import { LoginComponent } from './acesso/login/login.component';
 import { CadastroComponent } from './acesso/cadastro/cadastro.component';
 import { HomeComponent } from './home/home.component';
 import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [Autenticacao],
   bootstrap: [AppComponent]
