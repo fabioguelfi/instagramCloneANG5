@@ -3,6 +3,8 @@ import * as firebase from 'firebase';
 
 export class Autenticacao {
 
+    public token_id: string
+
     public cadastrarUsuario(usuario: Usuario): Promise<any> {
         console.log('chegamos ate o servico', usuario)
         return firebase.auth().createUserWithEmailAndPassword(usuario.email, usuario.senha)
@@ -25,7 +27,11 @@ export class Autenticacao {
     public autenticar(email: string, senha: string): void {
         console.log(email, senha)
         firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, senha)
-            .then((res) => console.log(res))
+            .then((res) => {
+                firebase.auth().currentUser.getIdToken()
+                    .then((idToken: string) => this.token_id = idToken)
+                    console.log(this.token_id)
+            })
             .catch((err) => console.log(err))
     }
 
