@@ -12,6 +12,7 @@ import { CadastroComponent } from './acesso/cadastro/cadastro.component';
 import { HomeComponent } from './home/home.component';
 import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
 import { RouterModule } from '@angular/router';
+import { AutenticacaoGuard } from './autenticacao-guard.service';
 
 
 @NgModule({
@@ -28,9 +29,9 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
   ],
-  providers: [Autenticacao],
+  providers: [Autenticacao, AutenticacaoGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
