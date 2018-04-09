@@ -15,8 +15,11 @@ export class Autenticacao {
                 firebase.database().ref(`usuario_detalhe/${btoa(usuario.email)}`)
                     .set({ usuario })
 
+                // ecrypt 64 btoa('string')
+                // decrypt to string atoa('ZmFiaW9ndWVsZml1bml4QGdtYWlsLmNvbQ==')
+
             })
-            .catch((err) => console.log(err))   
+            .catch((err) => console.log(err))
     }
 
 }
