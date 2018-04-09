@@ -1,3 +1,4 @@
+import { Autenticacao } from './autenticacao.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,7 +23,7 @@ import { CadastroComponent } from './acesso/cadastro/cadastro.component';
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [Autenticacao],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
