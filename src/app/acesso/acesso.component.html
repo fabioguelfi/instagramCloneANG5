@@ -4,9 +4,15 @@
       <app-banner></app-banner>
     </div>
 
-    <div class="col-sm-6 d-flex justify-content-start" [@animacaoPainel]="animacaoPainel">
-      <app-login></app-login>
-      <!-- <app-cadastro></app-cadastro> -->
+    <div *ngIf="cadastro; else formLogin">
+      <div class="col-sm-6 d-flex justify-content-start" [@animacaoPainel]="animacaoPainel">
+        <app-cadastro></app-cadastro>
+      </div>
     </div>
+    <ng-template #formLogin>
+      <div class="col-sm-6 d-flex justify-content-start" [@animacaoPainel]="animacaoPainel">
+        <app-login></app-login>
+      </div>
+    </ng-template>
   </div>
 </div>
