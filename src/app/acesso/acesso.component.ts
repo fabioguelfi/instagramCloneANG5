@@ -14,13 +14,23 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         style({ opacity: 0, transform: 'translate(-50px, 0)' }),
         animate('500ms 1s ease-in-out') // duracao, delay, e acelaracao 
       ])
+    ]),
+    trigger('animacaoPainel', [
+      state('criado', style({
+        opacity: 1
+      })),
+      transition('void => criado', [
+        style({ opacity: 0, transform: 'translate(50px, 0)' }),
+        animate('500ms 1s ease-in-out') // duracao, delay, e acelaracao 
+      ])
     ])
   ]
 })
 
 export class AcessoComponent implements OnInit {
 
-  public estadoBanner = 'criado'
+  public estadoBanner = 'criado';
+  public animacaoPainel = 'criado';
 
   constructor() { }
 
