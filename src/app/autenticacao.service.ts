@@ -35,8 +35,9 @@ export class Autenticacao {
             .then((res) => {
                 firebase.auth().currentUser.getIdToken()
                     .then((idToken: string) => {
-                        this.token_id = idToken
-                        this.router.navigate(['/home'])
+                        this.token_id = idToken;
+                        localStorage.setItem('idToken', idToken);
+                        this.router.navigate(['/home']);
                     })
                 console.log(this.token_id)
             })
@@ -44,7 +45,13 @@ export class Autenticacao {
     }
 
     public autenticado(): boolean {
+
+        if (this.token_id === undefined && localStorage.getItem('idToken') !== null) {
+            this.token_id = localStorage.getItem('idToken');
+        }
+
         return this.token_id !== undefined
+        
     }
 
 }
