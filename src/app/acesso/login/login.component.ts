@@ -9,16 +9,20 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
+  public disabled: boolean;
+
   @Output() public exibirPainel: EventEmitter<string> = new EventEmitter<string>()
 
+
   public formulario: FormGroup = new FormGroup({
-    'email': new FormControl('', Validators.required),
+    'email': new FormControl('', [Validators.required, Validators.email]),
     'senha': new FormControl('', [Validators.required, Validators.minLength(6)])
   })
 
   constructor(private autenticacao: Autenticacao) { }
 
   ngOnInit() {
+    this.disabled = this.formulario.valid;
   }
 
   public exibirPainelCadastro(): void {
@@ -29,8 +33,8 @@ export class LoginComponent implements OnInit {
     this.autenticacao.autenticar(this.formulario.value.email, this.formulario.value.senha)
   }
 
-  public teste(): void {
-    console.log(this.formulario.controls)
+  public check(): void {
+    this.disabled = this.formulario.valid;
   }
 
 }
