@@ -6,12 +6,13 @@ import { Router } from '@angular/router';
 @Injectable()
 export class Autenticacao {
 
-    public token_id: string
+    public token_id: string;
+    public emailInvalid = false;
+    public passwordInvalid = false;
 
     constructor(private router: Router) { }
 
     public cadastrarUsuario(usuario: Usuario): Promise<any> {
-        console.log('chegamos ate o servico', usuario)
         return firebase.auth().createUserWithEmailAndPassword(usuario.email, usuario.senha)
             .then((res: any) => {
 
@@ -30,7 +31,6 @@ export class Autenticacao {
     }
 
     public autenticar(email: string, senha: string): void {
-        console.log(email, senha)
         firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, senha)
             .then((res) => {
                 firebase.auth().currentUser.getIdToken()
@@ -39,15 +39,21 @@ export class Autenticacao {
                         localStorage.setItem('idToken', idToken);
                         this.router.navigate(['/home']);
                     })
-                console.log(this.token_id)
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                err.code === 'auth/invalid-email' ? this.emailInvalid = true : this.emailInvalid = false;
+                err.code === 'auth/wrong-password' ? this.passwordInvalid = true : this.passwordInvalid = false;
+            })
     }
 
     public autenticado(): boolean {
 
         if (this.token_id === undefined && localStorage.getItem('idToken') !== null) {
             this.token_id = localStorage.getItem('idToken');
+        }
+
+        if (this.token_id === undefined) {
+            this.router.navigate(['/'])
         }
 
         return this.token_id !== undefined

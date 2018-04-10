@@ -26,10 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   public autentica(): void {
-    this.autenticacao.autenticar(
-      this.formulario.value.email,
-      this.formulario.value.senha
-    )
+    this.autenticacao.autenticar(this.formulario.value.email, this.formulario.value.senha)
   }
 
 }
