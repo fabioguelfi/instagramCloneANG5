@@ -13,7 +13,8 @@ import { HomeComponent } from './home/home.component';
 import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
 import { RouterModule } from '@angular/router';
 import { AutenticacaoGuard } from './autenticacao-guard.service';
-
+import { IncluirPublicacaoComponent } from './home/incluir-publicacao/incluir-publicacao.component';
+import { Bd } from './bd.service';
 
 @NgModule({
   declarations: [
@@ -23,15 +24,16 @@ import { AutenticacaoGuard } from './autenticacao-guard.service';
     LoginComponent,
     CadastroComponent,
     HomeComponent,
-    PublicacoesComponent
+    PublicacoesComponent,
+    IncluirPublicacaoComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
   ],
-  providers: [Autenticacao, AutenticacaoGuard],
+  providers: [Autenticacao, AutenticacaoGuard, Bd],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
