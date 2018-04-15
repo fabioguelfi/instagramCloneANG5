@@ -31,4 +31,8 @@ export class IncluirPublicacaoComponent implements OnInit {
     });
   }
 
+  public prepaImageUpload(event: Event): void {
+    console.log( (<HTMLInputElement>event.target).files );
+  }
+
 }
