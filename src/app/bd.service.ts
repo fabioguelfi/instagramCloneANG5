@@ -19,7 +19,7 @@ export class Bd {
         (snapshot: any) => {
           this.progresso.status = 'andamento';
           this.progresso.estado = snapshot;
-          console.log(snapshot);
+          // console.log(snapshot);
         },
         // acao caso erro
         (err: any) => {
