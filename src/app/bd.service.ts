@@ -9,31 +9,33 @@ export class Bd {
 
   public publicar(publicacao: any): void {
 
-    const nomeImagem = Date.now();
+    firebase.database().ref(`publicacoes/${btoa(publicacao.email)}`)
+      .push({ titulo: publicacao.titulo })
+      .then((response: any) => {
 
-    firebase.storage().ref()
-      .child(`images/${nomeImagem}`)
-      .put(publicacao.imagem)
-      .on(firebase.storage.TaskEvent.STATE_CHANGED,
-        // acompanhamento do progresso do upload
-        (snapshot: any) => {
-          this.progresso.status = 'andamento';
-          this.progresso.estado = snapshot;
-          // console.log(snapshot);
-        },
-        // acao caso erro
-        (err: any) => {
-          this.progresso.status = 'erro';
-          // console.log(err);
-        },
-        () => {
-          // finalizacao processo
-          this.progresso.status = 'concluido';
-          // console.log('upload completo');
-        }
-      );
+        const nomeImagem = response.key;
 
-    // firebase.database().ref(`publicacoes/${btoa(publicacao.email)}`)
-    // .push( { titulo: publicacao.titulo } );
+        firebase.storage().ref()
+          .child(`images/${nomeImagem}`)
+          .put(publicacao.imagem)
+          .on(firebase.storage.TaskEvent.STATE_CHANGED,
+            // acompanhamento do progresso do upload
+            (snapshot: any) => {
+              this.progresso.status = 'andamento';
+              this.progresso.estado = snapshot;
+              // console.log(snapshot);
+            },
+            // acao caso erro
+            (err: any) => {
+              this.progresso.status = 'erro';
+              // console.log(err);
+            },
+            () => {
+              // finalizacao processo
+              this.progresso.status = 'concluido';
+            }
+          );
+
+      });
   }
 }
