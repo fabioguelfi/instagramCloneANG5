@@ -65,6 +65,7 @@ export class Bd {
 
                 // consultar o nome do usuario
                 firebase.database().ref(`usuario_detalhe/${btoa(emailUsuario)}`)
+                  .orderByKey()
                   .once('value')
                   .then((snapShot: any) => {
                     publicacao.nome_usuario = snapShot.val().usuario.nome_usuario;
