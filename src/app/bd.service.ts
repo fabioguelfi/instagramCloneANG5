@@ -39,40 +39,45 @@ export class Bd {
       });
   }
 
-  public consultaPublicacoes(emailUsuario: string): any {
+  public consultaPublicacoes(emailUsuario: string): Promise<any> {
 
-    // consultar publicacoes
-    firebase.database().ref(`publicacoes/${btoa(emailUsuario)}`)
-      .once('value')
-      .then((snapshot: any) => {
-        // console.log(snapshot.val());
+    return new Promise((resolve, reject) => {
 
-        const publicacoes: Array<any> = [];
+      // consultar publicacoes
+      firebase.database().ref(`publicacoes/${btoa(emailUsuario)}`)
+        .once('value')
+        .then((snapshot: any) => {
+          // console.log(snapshot.val());
 
-        snapshot.forEach((childSnapShot: any) => {
+          const publicacoes: Array<any> = [];
 
-          const publicacao = childSnapShot.val();
+          snapshot.forEach((childSnapShot: any) => {
 
-          // consulta a url da imagem (storage)
-          firebase.storage().ref()
-            .child(`images/${childSnapShot.key}`)
-            .getDownloadURL()
-            .then((url: string) => {
+            const publicacao = childSnapShot.val();
 
-              publicacao.url_imagem = url;
+            // consulta a url da imagem (storage)
+            firebase.storage().ref()
+              .child(`images/${childSnapShot.key}`)
+              .getDownloadURL()
+              .then((url: string) => {
 
-              // consultar o nome do usuario
-              firebase.database().ref(`usuario_detalhe/${btoa(emailUsuario)}`)
-                .once('value')
-                .then((snapShot: any) => {
-                  publicacao.nome_usuario = snapShot.val().usuario.nome_usuario;
-                  publicacoes.push(publicacao);
-                });
-            });
+                publicacao.url_imagem = url;
 
-          console.log(publicacoes);
+                // consultar o nome do usuario
+                firebase.database().ref(`usuario_detalhe/${btoa(emailUsuario)}`)
+                  .once('value')
+                  .then((snapShot: any) => {
+                    publicacao.nome_usuario = snapShot.val().usuario.nome_usuario;
+                    publicacoes.push(publicacao);
+                  });
+              });
 
+            resolve(publicacoes);
+            // console.log(publicacoes);
+
+          });
         });
-      });
+
+    });
   }
 }
