@@ -58,10 +58,20 @@ export class Bd {
             .child(`images/${childSnapShot.key}`)
             .getDownloadURL()
             .then((url: string) => {
+
               publicacao.url_imagem = url;
-              publicacoes.push(publicacao);
+
+              // consultar o nome do usuario
+              firebase.database().ref(`usuario_detalhe/${btoa(emailUsuario)}`)
+                .once('value')
+                .then((snapShot: any) => {
+                  publicacao.nome_usuario = snapShot.val().usuario.nome_usuario;
+                  publicacoes.push(publicacao);
+                });
             });
+
           console.log(publicacoes);
+
         });
       });
   }
