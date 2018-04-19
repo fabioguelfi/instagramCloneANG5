@@ -52,12 +52,19 @@ export class Bd {
           const publicacoes: Array<any> = [];
 
           snapshot.forEach((childSnapShot: any) => {
-
             const publicacao = childSnapShot.val();
+            publicacao.key = childSnapShot.key;
+            publicacoes.push(publicacao);
+          });
+          return publicacoes.reverse();
+        })
+        .then((publicacoes: any) => {
 
-            // consulta a url da imagem (storage)
+          publicacoes.forEach(publicacao => {
+
+            // consulta a url da imagem(storage)
             firebase.storage().ref()
-              .child(`images/${childSnapShot.key}`)
+              .child(`images/${publicacao.key}`)
               .getDownloadURL()
               .then((url: string) => {
 
@@ -69,16 +76,18 @@ export class Bd {
                   .once('value')
                   .then((snapShot: any) => {
                     publicacao.nome_usuario = snapShot.val().usuario.nome_usuario;
-                    publicacoes.push(publicacao);
                   });
               });
-
-            resolve(publicacoes);
-            // console.log(publicacoes);
-
           });
+
+          // console.log(publicacoes);
+          resolve(publicacoes);
+
         });
 
     });
   }
 }
+
+
+
