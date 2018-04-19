@@ -40,10 +40,29 @@ export class Bd {
   }
 
   public consultaPublicacoes(emailUsuario: string): any {
+
+    // consultar publicacoes
     firebase.database().ref(`publicacoes/${btoa(emailUsuario)}`)
-    .once('value')
-    .then((snapshot: any) => {
-      console.log(snapshot.val());
-    });
+      .once('value')
+      .then((snapshot: any) => {
+        // console.log(snapshot.val());
+
+        const publicacoes: Array<any> = [];
+
+        snapshot.forEach((childSnapShot: any) => {
+
+          const publicacao = childSnapShot.val();
+
+          // consulta a url da imagem (storage)
+          firebase.storage().ref()
+            .child(`images/${childSnapShot.key}`)
+            .getDownloadURL()
+            .then((url: string) => {
+              publicacao.url_imagem = url;
+              publicacoes.push(publicacao);
+            });
+          console.log(publicacoes);
+        });
+      });
   }
 }
